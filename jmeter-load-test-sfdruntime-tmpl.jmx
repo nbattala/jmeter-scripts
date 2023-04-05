@@ -28,7 +28,7 @@
           </elementProp>
           <elementProp name="grant_type" elementType="Argument">
             <stringProp name="Argument.name">grant_type</stringProp>
-            <stringProp name="Argument.value">${__property(grant_type,password)}</stringProp>
+            <stringProp name="Argument.value">${__property(grant_type)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
             <stringProp name="Argument.desc">Oauth Grant Type</stringProp>
           </elementProp>
@@ -46,7 +46,7 @@
           </elementProp>
           <elementProp name="scope" elementType="Argument">
             <stringProp name="Argument.name">scope</stringProp>
-            <stringProp name="Argument.value">${__property(scope,openid,*)}</stringProp>
+            <stringProp name="Argument.value">${__property(scope,)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
             <stringProp name="Argument.desc">Oauth Scope</stringProp>
           </elementProp>

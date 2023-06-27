@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="load-test-sas-detection" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="SendTransactions" enabled="true">
+        <stringProp name="TestPlan.comments">Send Transactions to sas-detection</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">10000</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">3</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">120</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Txn-Jmeter-Pumper" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${__property(host)}</stringProp>
+          <stringProp name="HTTPSampler.port">443</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/detection/decision/execute</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">Send a transaction to sas-detection</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
+            <stringProp name="TestPlan.comments"> Randomize Acct and Card numbers</stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">def body =&apos;{&quot;message&quot;:{&quot;request&quot;:{&quot;command&quot;:&quot;Execute&quot;,&quot;messageDtTm&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;messageTz&quot;:&quot;&quot;,&quot;restResponseFlg&quot;:1,&quot;messageSource&quot;:&quot;&quot;,&quot;messageSourceDesc&quot;:&quot;&quot;,&quot;messageDestination&quot;:&quot;&quot;,&quot;messageDestinationDesc&quot;:&quot;&quot;,&quot;decisioningInd&quot;:1,&quot;messageClassificationName&quot;:&quot;GLOBAL&quot;,&quot;schemaName&quot;:&quot;Credit Card Fraud Decisioning&quot;},&quot;solution&quot;:{&quot;customerType&quot;:&quot;I&quot;,&quot;originationType&quot;:&quot;99&quot;,&quot;authenticationType&quot;:&quot;NC&quot;,&quot;channelType&quot;:&quot;C&quot;,&quot;activityType&quot;:&quot;CA&quot;},&quot;customer&quot;:{&quot;identifier&quot;:&quot;mycustnum&quot;,&quot;identifierDesc&quot;:&quot;&quot;,&quot;identifierAlternate&quot;:&quot;&quot;,&quot;identifierAlternateDesc&quot;:&quot;&quot;,&quot;name&quot;:&quot;&quot;,&quot;surname&quot;:&quot;&quot;,&quot;language&quot;:0,&quot;type&quot;:&quot;ADV&quot;,&quot;joinDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;birthDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;nationality&quot;:&quot;&quot;,&quot;address&quot;:&quot;&quot;,&quot;addressCity&quot;:&quot;&quot;,&quot;addressPostcode&quot;:&quot;&quot;,&quot;addressCountry&quot;:&quot;&quot;,&quot;addressCountryCode&quot;:&quot;&quot;,&quot;addressLastChangeDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;addressAlternate&quot;:&quot;&quot;,&quot;addressAlternateCity&quot;:&quot;&quot;,&quot;addressAlternatePostcode&quot;:&quot;&quot;,&quot;addressAlternateCountry&quot;:&quot;&quot;,&quot;addressAlternateCountryCode&quot;:&quot;&quot;,&quot;addressAlternateLastChangeDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;homePhone&quot;:&quot;&quot;,&quot;homePhoneLastChangeDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;mobilePhone&quot;:&quot;&quot;,&quot;mobilePhoneLastChangeDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;phoneAlternate&quot;:&quot;&quot;,&quot;phoneAlternateLastChangeDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;email&quot;:&quot;&quot;,&quot;emailLastChangeDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;emailAlternate&quot;:&quot;&quot;,&quot;emailAlternateLastChangeDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;employeeFlg&quot;:&quot;0&quot;,&quot;employerName&quot;:&quot;&quot;,&quot;employeeJobTitle&quot;:&quot;&quot;,&quot;employeeStartDate&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;authorityStatusInd&quot;:&quot;S&quot;,&quot;incomeStatusType&quot;:&quot;UHW&quot;},&quot;creditcard&quot;:{&quot;number&quot;:&quot;mycardnum&quot;,&quot;binNumber&quot;:&quot;&quot;,&quot;encyptedNumber&quot;:&quot;e-card12345&quot;,&quot;lastFourDigits&quot;:&quot;&quot;,&quot;type&quot;:&quot;AMX&quot;,&quot;typeDesc&quot;:&quot;&quot;,&quot;openDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;issueDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;issueType&quot;:&quot;I&quot;,&quot;activationDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;activationChannelInd&quot;:&quot;B&quot;,&quot;expirationDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;expirationMonth&quot;:&quot;&quot;,&quot;expirationYear&quot;:&quot;&quot;,&quot;lastExpiration&quot;:&quot;&quot;,&quot;lastPinDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;invalidPinTries&quot;:0,&quot;invalidPinDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;encryptedSecurityCode&quot;:&quot;&quot;,&quot;securityCodePfToken&quot;:&quot;&quot;,&quot;category&quot;:&quot;&quot;,&quot;binCategory&quot;:&quot;&quot;,&quot;issuingBank&quot;:&quot;&quot;,&quot;issuingCountry&quot;:840,&quot;issuingCountryCode&quot;:&quot;&quot;,&quot;holderName&quot;:&quot;&quot;,&quot;holderEmbossedName&quot;:&quot;&quot;,&quot;limit&quot;:0,&quot;lastLimitChangeDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;lastLimit&quot;:0,&quot;spendLimit&quot;:0,&quot;spendLimitType&quot;:&quot;ATM&quot;,&quot;marker&quot;:&quot;&quot;,&quot;statusInd&quot;:&quot;A&quot;,&quot;blockCode&quot;:&quot;&quot;,&quot;blockDt&quot;:&quot;2019-09-26T00:00:00.000+0000&quot;,&quot;delinquencyStatus&quot;:&quot;&quot;,&quot;delinquencyDays&quot;:0,&quot;cyclesOverLimit&quot;:0,&quot;cashLimit&quot;:0,&quot;currency&quot;:840,&quot;currencyCode&quot;:&quot;&quot;,&quot;linkedCards&quot;:0,&quot;balance&quot;:0,&quot;balanceType&quot;:&quot;CL&quot;,&quot;balanceAlternate&quot;:0,&quot;balanceAlternateType&quot;:&quot;CL&quot;,&quot;availableBalance&quot;:0,&quot;cashBalance&quot;:0,&quot;linkedPaymentAccount&quot;:&quot;&quot;},&quot;merchant&quot;:{&quot;identifier&quot;:&quot;mymercnum&quot;,&quot;categoryCode&quot;:&quot;&quot;,&quot;alternateCountryCode&quot;:&quot;&quot;,&quot;name&quot;:&quot;&quot;,&quot;city&quot;:&quot;&quot;,&quot;state&quot;:&quot;&quot;,&quot;country&quot;:840,&quot;countryCode&quot;:&quot;&quot;,&quot;acquiringBankIdentifier&quot;:&quot;a-merchant12345&quot;,&quot;acquiringBankName&quot;:&quot;&quot;}}}&apos;
+
+Integer randomNum = Math.abs(new Random().nextInt() % 1000000000) + 1
+body = body.replaceAll(&apos;mycustnum&apos;, &quot;000000&quot; + randomNum.toString())
+body = body.replaceAll(&apos;mycardnum&apos;, &quot;000000&quot; + randomNum.toString())
+body = body.replaceAll(&apos;mymercnum&apos;, &quot;000000&quot; + randomNum.toString())
+sampler.getArguments().removeAllArguments()
+sampler.addNonEncodedArgument(&apos;&apos;,body,&apos;&apos;)
+sampler.setPostBodyRaw(true)
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="false">
+            <stringProp name="TestPlan.comments">get Response time for each request</stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">log.info(&quot;---------------&gt; &quot; + prev.getTime())</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
+          <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="false">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="influxdbMetricsSender" elementType="Argument">
+                  <stringProp name="Argument.name">influxdbMetricsSender</stringProp>
+                  <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="influxdbUrl" elementType="Argument">
+                  <stringProp name="Argument.name">influxdbUrl</stringProp>
+                  <stringProp name="Argument.value">http://fmlaxie1.unx.sas.com:8086/write?db=jmeter</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="influxdbToken" elementType="Argument">
+                  <stringProp name="Argument.name">influxdbToken</stringProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="measurement" elementType="Argument">
+                  <stringProp name="Argument.name">measurement</stringProp>
+                  <stringProp name="Argument.value">jmeterraw</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="TestPlan.comments">RAW</stringProp>
+            <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxDBRawBackendListenerClient</stringProp>
+          </BackendListener>
+          <hashTree/>
+          <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="influxdbMetricsSender" elementType="Argument">
+                  <stringProp name="Argument.name">influxdbMetricsSender</stringProp>
+                  <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="influxdbUrl" elementType="Argument">
+                  <stringProp name="Argument.name">influxdbUrl</stringProp>
+                  <stringProp name="Argument.value">http://192.168.2.6:8086/write?db=jmeter</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="application" elementType="Argument">
+                  <stringProp name="Argument.name">application</stringProp>
+                  <stringProp name="Argument.value">StaticThreads</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="measurement" elementType="Argument">
+                  <stringProp name="Argument.name">measurement</stringProp>
+                  <stringProp name="Argument.value">jmeter</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="summaryOnly" elementType="Argument">
+                  <stringProp name="Argument.name">summaryOnly</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="samplersRegex" elementType="Argument">
+                  <stringProp name="Argument.name">samplersRegex</stringProp>
+                  <stringProp name="Argument.value">.*</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="percentiles" elementType="Argument">
+                  <stringProp name="Argument.name">percentiles</stringProp>
+                  <stringProp name="Argument.value">90;95;99</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="testTitle" elementType="Argument">
+                  <stringProp name="Argument.name">testTitle</stringProp>
+                  <stringProp name="Argument.value">SFD runtime test</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="eventTags" elementType="Argument">
+                  <stringProp name="Argument.name">eventTags</stringProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient</stringProp>
+          </BackendListener>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
